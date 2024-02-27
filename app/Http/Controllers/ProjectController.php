@@ -36,42 +36,28 @@ class ProjectController extends Controller
 
     }
 
-    function Store(Request $request) {
+    function Store(ProjectRequest $request) {
 
-        $validation = Validator::make($request->all(), [
-            "nama_project" => "required",
-            "deskripsi" => "required",
-            "image" => "image|file|required"
-        ]);
-
-        if ($validation->fails()) {
-            return response()->json($validation->errors(), 400);
-        }
+        $payload = $request->validated();
 
         $user = Auth::user();
 
-        $payload = [
-            "nama_project" => $request->nama_project,
-            "deskripsi" => $request->deskripsi,
-            "user_id" => $user->id,
-            "tool_id" => $request->tool
-        ];
+        $payload["user_id"] = $user->id;
 
         $project = Project::create($payload);
 
         $image = $request->file("image");
 
-            $extension = $image->extension();
-            $dir = "storage/project/";
-            $name = Str::random(32) . '.' . $extension;
-            $foto = $dir . $name;
-            $image->move($dir, $name);
+        $extension = $image->extension();
+        $dir = "storage/project/";
+        $name = Str::random(32) . '.' . $extension;
+        $foto = $dir . $name;
+        $image->move($dir, $name);
             
-            Image::create([
-                "project_id" => $project->id,
-                "image" => $foto
-            ]);
-
+        Image::create([
+            "project_id" => $project->id,
+            "image" => $foto
+        ]);
 
         return response()->json([
             "message" => "Project berhasil diupload!"

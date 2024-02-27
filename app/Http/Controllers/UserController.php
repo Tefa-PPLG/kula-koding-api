@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,5 +23,22 @@ class UserController extends Controller
                 "message" => "Tidak ada project"
             ], 404);
         }
+    }
+
+    function Update( Request $request) {
+        $payload = [
+            "username" => $request->username,
+            "email" => $request->email,
+            "kelas" => $request->kelas,
+        ];
+
+        $loggedin = Auth::user();
+
+        $user = User::firstWhere("id", $loggedin->id);
+
+        $user->username = $payload["username"];
+        $user->email = $payload["email"];
+        $user->kelas = $payload["kelas"];
+        $user->save($payload);
     }
 }

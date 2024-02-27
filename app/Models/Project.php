@@ -21,4 +21,9 @@ class Project extends Model
     function User() : BelongsTo {
         return $this->belongsTo(User::class, "user_id");
     }
+
+    protected $casts = [
+        'tool' => 'array',
+    ];
+
 }

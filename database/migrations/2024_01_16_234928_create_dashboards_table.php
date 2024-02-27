@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('configs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->json("tool");
-            $table->string("nama_project");
-            $table->text("deskripsi");
-            $table->string("github")->nullable();
+            $table->string("config");
+            $table->text("value");
             $table->timestamps();
-
-            $table->foreign("user_id")->references("id")->on("users");
         });
     }
 
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('dashboards');
     }
 };

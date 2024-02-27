@@ -22,6 +22,7 @@ class AuthController extends Controller
         }
 
         Hash::make($payload["password"]);
+        $payload["kelas"] = "12 PPLG B";
 
         $user = User::create($payload);
 

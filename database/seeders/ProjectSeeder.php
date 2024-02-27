@@ -18,7 +18,7 @@ class ProjectSeeder extends Seeder
         for ($i=0; $i < 20; $i++) { 
             Project::create([
                 "user_id" => 1,
-                "tool_id" => 1,
+                "tool" => ["php"],
                 "nama_project" => $faker->name(),
                 "deskripsi" => $faker->paragraph(),
             ]);

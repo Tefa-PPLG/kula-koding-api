@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Komentar;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -40,5 +42,17 @@ class UserController extends Controller
                 "message" => "Data berhasil dihapus"
             ], 200);
         }
+    }
+
+    function Latest() {
+        $user = User::latest()->take(6)->get();
+        $project = Project::with("user")->latest()->take(6)->get();
+        $komentar = Komentar::with("User")->latest()->take(6)->get();
+
+        return response()->json([
+            "user" => $user,
+            "project" => $project,
+            "komentar" => $komentar
+        ], 200);
     }
 }
